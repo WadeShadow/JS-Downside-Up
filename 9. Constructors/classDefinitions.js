@@ -84,3 +84,59 @@ var extend = (function () {
     return extensible;
   }
 })();
+
+
+/** An example of defining whole Java-like class in JavaScript mechanics
+ * Complex.js
+ * 
+ * Class defines complex as a pair of two real numbers (r, i), where r is real, i - imaginary 
+ */
+{
+  function Complex(real, imaginary) {
+    // Ensure adequate both arguments provided
+    if (isNaN(real) || isNaN(imaginary)) {
+      throw new TypeError("One of arguments is NaN: real: " + real + ", imaginary: " + imaginary);
+    }
+
+    this.r = real;
+    this.i = imaginary;
+  }
+
+  Complex.prototype = {
+    constructor: Complex,
+
+    add: function (that) {
+      return new Complex(this.r + that.r, this.i + that.i);
+    },
+
+    multiply: function (that) {
+      return new Complex(this.r * this.r - that.i * that.i, this.r * that.i + this.i * that.r);
+    },
+
+    magnitude: function () {
+      return Math.sqrt(this.r * this.r + this.i * this.i);
+    },
+
+    neg: function () {
+      return new Complex(-this.r, -this.i);
+    },
+
+    toString: function () {
+      return "(" + this.r + ", " + this.i + "i)";
+    },
+
+    equals: function (that) {
+      return that != null //Must be defined in order our equals not invoking side errors
+        &&
+        that.constructor === Complex &&
+        this.r === that.r &&
+        this.i === that.i;
+    }
+  };
+
+  Complex.ZERO = new Complex(0, 0);
+
+  Complex.ONE = new Complex(1, 0);
+
+  Complex.I = new Complex(0, 1);
+}
