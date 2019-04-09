@@ -131,8 +131,16 @@ var extend = (function () {
         that.constructor === Complex &&
         this.r === that.r &&
         this.i === that.i;
+    },
+
+    parse: function (string) {
+      var complexStrings = Complex._format.exec(string);
+      return new Complex(complexStrings[1],complexStrings[2]);
     }
   };
+
+  /*Underscore means that it is intended for internal use*/
+  Complex._format = /^\((\d+),(\d+)\)$/;
 
   Complex.ZERO = new Complex(0, 0);
 
